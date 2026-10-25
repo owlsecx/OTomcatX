@@ -18,22 +18,20 @@
 
 ## 📌 Overview
 
-Offline Apache Tomcat / Java servlet container configuration auditor
+
+OTomcatX is an offline, read-only Apache Tomcat configuration auditor that analyses an entire CATALINA_BASE or individual files using stdlib only. It reviews server.xml (shutdown port, AJP/Ghostcat, plaintext connectors, TLS, valves), tomcat-users.xml (default/weak credentials, over-privileged roles), web.xml, context.xml and catalina properties/policy. Findings are mapped to CWE/CVE and the CIS Tomcat Benchmark, scored and graded, and exported as TXT, Markdown, JSON, CSV or SARIF.
 
 ---
 
 ## ✨ Features
 
-- Offline, read-only audit of a whole CATALINA_BASE (or individual config files) — stdlib only
-- server.xml — shutdown port/command, AJP / Ghostcat (CVE-2020-1938), plaintext HTTP connectors, weak TLS protocols & ciphers, server header, xpoweredBy, allowTrace, autoDeploy, valves (AccessLog, Remote Addr/CIDR, ErrorReport showReport / showServerInfo)
-- tomcat-users.xml — default credentials, plaintext and weak / duplicate passwords (always masked), over-privileged manager-script / manager-jmx roles
-- web.xml — DefaultServlet listings & readonly (CVE-2017-12617), security-constraint, transport guarantee, session timeout, cookie flags, error pages
-- context.xml — privileged, crossContext, resource locking, manager / host-manager address restriction
-- catalina.properties / catalina.policy / setenv.sh — JMX remote auth/SSL, JPDA debug, security manager
-- webapps — examples / docs / ROOT / host-manager, file permissions, Tomcat version & EOL detection
-- CWE / CVE / CIS Apache Tomcat Benchmark mapping, severity, remediation, score & A+…F grade
-- Exports TXT / Markdown / JSON / CSV / SARIF 2.1.0
-- CI gates (--fail-on, --min-severity), self-test demo
+
+- Audits a whole CATALINA_BASE or individual server.xml/tomcat-users.xml/web.xml/context.xml files
+- server.xml checks: shutdown port/command, AJP Ghostcat (CVE-2020-1938), plaintext HTTP, weak TLS, valves
+- tomcat-users.xml: default/plaintext/weak/duplicate passwords (masked) and over-privileged manager roles
+- web.xml DefaultServlet listings/readonly (CVE-2017-12617), security constraints and cookie flags
+- context.xml privileged/crossContext and catalina.properties/policy/setenv (JMX, JPDA, security manager)
+- webapps inventory, version/EOL detection, CWE/CVE/CIS mapping and TXT/MD/JSON/CSV/SARIF export
 
 ---
 
@@ -46,8 +44,13 @@ Offline Apache Tomcat / Java servlet container configuration auditor
 
 ## 🚀 Usage
 
+
 ```bash
-./OTomcatX
+./OTomcatX -b /opt/tomcat -f sarif -o tomcat.sarif
+./OTomcatX --server-xml /opt/tomcat/conf/server.xml --users-xml /opt/tomcat/conf/tomcat-users.xml
+./OTomcatX -s --fail-on high --json
+./OTomcatX --demo
+./OTomcatX --help
 ```
 
 ---
